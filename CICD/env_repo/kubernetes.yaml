@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: my-first-app-deployement
+spec: 
+  replicas: 5
+  selector: 
+    matchLabels: 
+      app: gcp-6m9
+  template: 
+    metadata: 
+      labels: 
+        app: gcp-6m9
+    spec: 
+      containers: 
+        - image: gcr.io/static-welder-313406/banking_app:927be4f
+          name: my-first-app-container
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: banking-app-loadbalancer
+spec:
+  selector:
+    app: gcp-6m9
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: LoadBalancer

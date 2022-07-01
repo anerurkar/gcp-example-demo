@@ -1,0 +1,59 @@
+Continuous integration   
+
+1)Add Kubernetes Engine Developer role to service account cloudbuild.gserviceaccount.com.
+2)create GKE cluster in region us-central1
+3)create source code repository from ui
+4)ssh-keygen -t rsa   (from cloud shell 5-10)
+5)Take git clone command from ui and run it on cloud shell
+git clone ssh://  (sample command)
+cd banking-code-repo
+git checkout -b develop
+6)upload your source code repo files
+7)git add Dockerfile cloudbuild.yaml kubernetes.yaml.tpl kubernetes_first_app.py requirements.txt
+8)add your email ids
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+9)git commit -m "adding source code files"
+10)git push origin develop
+
+10)create source code repository for env (banking_app_deploy_env)
+11)GO to settings -> permission ->  (	Source Repository Writer to 	cloudbuild.gserviceaccount.com)
+12)Take git clone command from ui and run it on cloud shell
+git clone ssh://  (sample command)
+cd banking_app_deploy_env
+git checkout -b develop
+upload your env code repo files (cloudbuild.yaml)
+13)git add cloudbuild.yaml
+14)git commit -m "adding cloud build"
+15)git push origin develop
+16)create build trigger on both the repository for your develop branch
+17)push one more commit to source code repository to start the ci/cd pipleline
+add changes in file kubernetes_first_app.py (add text changes like version 1 in return statement  return "version 1 :Request served)
+git add kubernetes_first_app.py
+git commit -m "adding version 1 changes"
+git push origin develop
+18)connect to cluster using connect command from cloud shell and check the pods are deployed.Verify that build is created in ui and docker image is formed
+19)kubectl exec -it my-first-app-deployement-5d7998b567-52bwd -- /bin/sh
+apk add curl
+curl localhost:3000/main
+exit
+20)change code in file kubernetes_first_app.py to version 2
+git add kubernetes_first_app.py
+git commit -m "adding changes for version 2"
+git push origin develop
+
+21)kubectl get pods
+22)kubectl exec -it my-first-app-deployement-5d7998b567-52bwd -- /bin/sh
+apk add curl
+curl localhost:3000/main
+exit
+
+
+
+
+
+
+
+
+
+
